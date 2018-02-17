@@ -1,6 +1,7 @@
 program farey;
 var fi,fo:text;
-    n,i,j,k,l:longint;
+    kt:boolean;
+    n,i,j,k,l,m,c,d:longint;
     a:array[0..9999,1..10000] of longint;
 function ucln(t,m:longint):longint;
  var r:longint;
@@ -24,32 +25,30 @@ begin
  a[0,2]:=1;
  k:=1;
  i:=0;
- while i<n do
+ while i<n-1 do
   begin
    inc(i);
    j:=n+1;
-   while j>i do
+   while j>i+1 do
     begin
      dec(j);
-     for l:=1 to k-1 do
+     kt:=true;
+     for l:=0 to k-1 do
       if (a[l,1]=i div ucln(i,j)) and (a[l,2]=j div ucln(i,j)) then
-       begin
-        inc(i);
-        dec(j);
-       end
-      else
-       begin
-        inc(k);
-        a[k,1]:=i div ucln(i,j);
-        a[k,2]:=j div ucln(i,j);
-       end;
+       kt:=false;
+     if kt = true then
+      begin
+       a[k,1]:=i div ucln(i,j);
+       a[k,2]:=j div ucln(i,j);
+       inc(k);
+      end;
     end;
   end;
- a[k+1,1]:=1;
- a[k+1,2]:=1;
- writeln(fo,k);
+ a[k,1]:=1;
+ a[k,2]:=1;
+ writeln(fo,k+1);
  for i:=0 to k do
-  writeln(fo,a[i,1],' ',a[k,2]);
+  writeln(fo,a[i,1],' ',a[i,2]);
  close(fi);
  close(fo);
 end.
